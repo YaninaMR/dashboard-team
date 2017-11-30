@@ -376,26 +376,50 @@ function showHseSkills(e) {
     alert('Por favor seleccione una Sede y su generación');
   }
 }
-
-
-
-
-/*
-var sa = data["AQP"]["2016-2"]["students"];
-
-for(var j=0;j<sa.length;j++){
-  if(sa[j]["active"] === true){
-  var ss = data["AQP"]["2016-2"]["students"][j]["sprints"];
-  var sumSprintTotal = 0,sumSprintTotalH = 0;
-    for(var i = 0 ; i < ss.length ;i++){
-     var scoreTech = ss[i]["score"]["tech"];
-         var scoreHse = ss[i]["score"]["hse"];
-       sumSprintTotal = sumSprintTotal + scoreTech;
-         sumSprintTotalH = sumSprintTotalH + scoreHse;   
+// ---------------------------------------mostrar puntaje  estudiantes por sede y generación------------------------------------------------------
+var studentsData = document.getElementById('students');
+studentsData.addEventListener('click', showStudentData);
+function showStudentData(e) {
+  var textSedeSelected = document.getElementById('sedeSelect').textContent;
+  var textGenerSelected = document.getElementById('generSelect').textContent;
+  var sa = data[textSedeSelected][textGenerSelected]['students'];
+  for (var j = 0;j < sa.length;j++) {
+    if (sa[j]['active'] === true) {
+      // var ss = data[textSedeSelected][textGenerSelected]["students"][j]["sprints"];
+      var ss = sa[j]['sprints'];
+      var sumSprintTotal = 0, sumSprintTotalH = 0;
+      for (var i = 0 ; i < ss.length ;i++) {
+        var scoreTech = ss[i]['score']['tech'];
+        var scoreHse = ss[i]['score']['hse'];
+        sumSprintTotal = sumSprintTotal + scoreTech;
+        sumSprintTotalH = sumSprintTotalH + scoreHse;   
+      }
+      // console.log((((sumSprintTotal/4)/1800)*100).toFixed(2));
+      porcentajeTech = (((sumSprintTotal / ss.length) / 1800) * 100).toFixed(2);
+      porcentajeHse = (((sumSprintTotalH / ss.length) / 1800) * 100).toFixed(2);
     }
-  //console.log((((sumSprintTotal/4)/1800)*100).toFixed(2));
-     porcentajeTech = (((sumSprintTotal/ss.length)/1800)*100).toFixed(2);
-     porcentajeHse = (((sumSprintTotalH/ss.length)/1800)*100).toFixed(2);
+    var sectionStudents = document.getElementById('studentsData');
+    var divStudent = document.createElement('div');
+    // Student Name
+    var name = document.createElement('h2');
+    var textName = document.createTextNode(sa[j]['name']);
+    name.appendChild(textName);
+    divStudent.appendChild(name); 
+    // porcentajeTech
+    var sporcentajeTech = document.createElement('h4');
+    var textTech = document.createTextNode('  Tech Skills' + porcentajeTech + '% ');
+    sporcentajeTech.appendChild(textTech);
+    sporcentajeTech.classList.add('square');
+    divStudent.appendChild(sporcentajeTech); 
+    // PorcentajeHSe
+    var sporcentajeHse = document.createElement('h4');
+    var textHse = document.createTextNode('| Life Skills: ' + porcentajeHse + '% | ');
+    sporcentajeHse.appendChild(textHse);
+    sporcentajeHse.classList.add('square');
+    divStudent.appendChild(sporcentajeHse); 
+    sectionStudents.appendChild(divStudent);
+    console.log(sa[j]['name'] + 'porcentaje de sprint tech: ' + porcentajeTech + 'Porcentaje de sprint hse: ' + porcentajeHse);
   }
-  console.log(sa[j]["name"] + "porcentaje de sprint tech: " + porcentajeTech + "Porcentaje de sprint hse: " + porcentajeHse   );
- } */
+}
+
+
